@@ -1,0 +1,15 @@
+build:
+  image: fedora:26
+  variables:
+    DOCKER_HOST: "tcp://lordgaav__dind-options:2375"
+  services:
+    - lordgaav/dind-options:latest
+  script:
+    - dnf install -y docker make git findutils golang golang-race make gcc zip mercurial krb5-devel bsdtar bc rsync bind-utils file jq tito createrepo openssl gpgme gpgme-devel libassuan libassuan-devel
+    - make
+    - mkdir -p public
+    - mv ./_output/local/bin/linux/amd64/* ./public
+  artifacts:
+    paths:
+      - public
+
